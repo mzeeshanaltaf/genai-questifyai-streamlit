@@ -22,7 +22,7 @@ world_bank_topics = {
 page_title = "Questify AI"
 page_icon = ":robot_face:"
 
-st.set_page_config(page_title=page_title, page_icon=page_icon, layout="wide")
+st.set_page_config(page_title=page_title, page_icon=page_icon, layout="centered")
 st.image('logo.jpg', width=400)
 st.title(page_title)
 st.write(":blue[***Transforming Text into Thought-Provoking Questions***]")
@@ -76,28 +76,22 @@ When generating a list, don't start the list with word python.
 If image is not consisted of text, respond that there is no text in the image or similar. 
 """
 
-col1, col2 = st.columns(2)
 
-with col2:
-    container1 = st.container(height=500, border=True)
-    with container1:
-        if uploaded_image is not None:
-            image = Image.open(uploaded_image)
-            st.subheader("Reference Chapter Image")
-            if file_uploader:
-                st.image(image, use_column_width='auto')
-with col1:
-    container2 = st.container(height=500, border=True)
-    submit = st.button("Generate Questions", type="primary", disabled=not file_uploader)
+if uploaded_image is not None:
+    image = Image.open(uploaded_image)
+    st.sidebar.subheader("Reference Chapter Image")
+    if file_uploader:
+        st.sidebar.image(image, use_column_width=False)
 
-    # if submit:
-    if submit:
-        with container2:
-            st.subheader("Generated Questions:")
-            with st.spinner(":blue[Processing...]"):
-                response = get_gemini_response(api_key, input_prompt, byte_arr)
-                print(response)
-                response_list = json.loads(response)
-                for index in range(len(response_list)):
-                    expander = st.expander(response_list[index]['question'])
-                    expander.write(response_list[index]['answer'])
+submit = st.button("Generate Questions", type="primary", disabled=not file_uploader)
+
+if submit:
+
+    st.subheader("Generated Questions:")
+    with st.spinner(":blue[Processing...]"):
+        response = get_gemini_response(api_key, input_prompt, byte_arr)
+        print(response)
+        response_list = json.loads(response)
+        for index in range(len(response_list)):
+            expander = st.expander(response_list[index]['question'])
+            expander.write(response_list[index]['answer'])
