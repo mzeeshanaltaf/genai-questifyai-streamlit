@@ -28,7 +28,7 @@ api_key, file_uploader = configure_apikey_sidebar()
 st.subheader('Select the Topic')
 topic = st.selectbox("Select the Topic", ('Agriculture', 'Farming Methods/Organic Farming in Pakistan',
                                           'Smart Farms', 'Irrigation', 'Arable Farming', 'Wheat'),
-                     label_visibility="collapsed")
+                     label_visibility="collapsed", disabled=not file_uploader)
 st.write(topic)
 uploaded_image = topics[topic]
 image = Image.open(uploaded_image)
@@ -40,9 +40,9 @@ image.save(byte_arr, format='PNG')
 
 st.subheader("Select Difficulty Level:")
 difficulty = st.selectbox("Select the difficult level", ('Easy', 'Medium', 'Difficult'),
-                          label_visibility="collapsed")
+                          label_visibility="collapsed", disabled=not file_uploader)
 st.subheader("Select the Number of Questions:")
-questions = st.slider("Number of Questions", 1, 10, 5, label_visibility="collapsed")
+questions = st.slider("Number of Questions", 1, 10, 5, label_visibility="collapsed", disabled=not file_uploader)
 
 # Input Prompt
 input_prompt = f"""
@@ -59,10 +59,11 @@ with col2:
         if uploaded_image is not None:
             image = Image.open(uploaded_image)
             st.subheader("Reference Chapter Image")
-            st.image(image, use_column_width='auto')
+            if file_uploader:
+                st.image(image, use_column_width='auto')
 with col1:
     container2 = st.container(height=500, border=True)
-    submit = st.button("Generate Questions", type="primary")
+    submit = st.button("Generate Questions", type="primary", disabled=not file_uploader)
 
     # if submit:
     if submit:
