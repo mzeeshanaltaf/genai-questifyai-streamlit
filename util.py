@@ -31,10 +31,11 @@ def get_gemini_response(api_key, prompt, u_image):
 # Function to extract details from the uploaded image which is compatible with the model format
 def input_image_details(uploaded_file):
     if uploaded_file is not None:
+
         bytes_data = uploaded_file.getvalue()
         image_parts = [
             {
-                "mime_type": uploaded_file.type,
+                "mime_type": 'image/png',
                 "data": bytes_data
             }
         ]

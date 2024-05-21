@@ -1,5 +1,15 @@
 from PIL import Image
+from io import BytesIO
 from util import *
+
+topics = {
+    'Agriculture': 'topics/1_Agriculture.jpg',
+    'Farming Methods/Organic Farming in Pakistan': 'topics/2_fm_ofp.jpg',
+    'Smart Farms': 'topics/3_smart_farms.jpg',
+    'Irrigation': 'topics/4_Irrigation.jpg',
+    'Arable Farming': 'topics/5_ArableFarming.jpg',
+    'Wheat': 'topics/6_wheat.jpg',
+}
 
 # --- PAGE SETUP ---
 # Initialize streamlit app
@@ -15,16 +25,24 @@ st.write("Upload an image of a text paragraph, select number of questions to be 
 # ---- SETUP SIDEBAR ----
 st.sidebar.title("Configuration")
 api_key, file_uploader = configure_apikey_sidebar()
-
-st.header("Upload Image")
-uploaded_image = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"], disabled=not file_uploader,
-                                  label_visibility='collapsed')
+st.subheader('Select the Topic')
+topic = st.selectbox("Select the Topic", ('Agriculture', 'Farming Methods/Organic Farming in Pakistan',
+                                          'Smart Farms', 'Irrigation', 'Arable Farming', 'Wheat'),
+                     label_visibility="collapsed")
+st.write(topic)
+uploaded_image = topics[topic]
+image = Image.open(uploaded_image)
+byte_arr = BytesIO()
+image.save(byte_arr, format='PNG')
+# st.header("Upload Image")
+# uploaded_image = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"], disabled=not file_uploader,
+#                                   label_visibility='collapsed')
 
 st.subheader("Select Difficulty Level:")
 difficulty = st.selectbox("Select the difficult level", ('Easy', 'Medium', 'Difficult'),
-                          label_visibility="collapsed", disabled=not uploaded_image)
+                          label_visibility="collapsed")
 st.subheader("Select the Number of Questions:")
-questions = st.slider("Number of Questions", 1, 10, 5, label_visibility="collapsed", disabled=not uploaded_image)
+questions = st.slider("Number of Questions", 1, 10, 5, label_visibility="collapsed")
 
 # Input Prompt
 input_prompt = f"""
@@ -40,11 +58,10 @@ with col2:
     with container1:
         if uploaded_image is not None:
             image = Image.open(uploaded_image)
-            st.subheader("Uploaded Image")
+            st.subheader("Reference Chapter Image")
             st.image(image, use_column_width='auto')
 with col1:
     container2 = st.container(height=500, border=True)
-
     submit = st.button("Generate Questions", type="primary")
 
     # if submit:
@@ -52,5 +69,5 @@ with col1:
         with container2:
             st.subheader("Generated Questions:")
             with st.spinner(":blue[Processing...]"):
-                response = get_gemini_response(api_key, input_prompt, uploaded_image)
+                response = get_gemini_response(api_key, input_prompt, byte_arr)
                 st.write(response)
