@@ -26,8 +26,7 @@ st.write("Upload an image of a text paragraph, select number of questions to be 
 st.sidebar.title("Configuration")
 api_key, file_uploader = configure_apikey_sidebar()
 st.subheader('Select the Topic')
-topic = st.selectbox("Select the Topic", ('Agriculture', 'Farming Methods/Organic Farming in Pakistan',
-                                          'Smart Farms', 'Irrigation', 'Arable Farming', 'Wheat'),
+topic = st.selectbox("Select the Topic", topics.keys(),
                      label_visibility="collapsed", disabled=not file_uploader)
 st.write(topic)
 uploaded_image = topics[topic]
@@ -48,7 +47,10 @@ questions = st.slider("Number of Questions", 1, 10, 5, label_visibility="collaps
 input_prompt = f"""
 You are a proficient text reader from an image. 
 We will upload an image of a text. After extracting text from the image, generate {questions} questions of 
-difficulty level: {difficulty}. If image is not consisted of text, respond that there is no text in the image or similar. 
+difficulty level: {difficulty}. Besides questions, also generate an answer to those questions. Type answers after all
+the questions.
+
+If image is not consisted of text, respond that there is no text in the image or similar. 
 """
 
 col1, col2 = st.columns(2)
