@@ -1,6 +1,7 @@
 from PIL import Image
 from io import BytesIO
 from util import *
+import json
 
 agriculture_topics = {
     'Agriculture': 'topics/1_Agriculture.jpg',
@@ -25,8 +26,9 @@ st.set_page_config(page_title=page_title, page_icon=page_icon, layout="wide")
 st.image('logo.jpg', width=400)
 st.title(page_title)
 st.write(":blue[***Transforming Text into Thought-Provoking Questions***]")
-st.write("Upload an image of a text paragraph, select number of questions to be generated and difficulty leve"
-         " and then click Generate Questions button. Questify AI will do the rest.")
+st.write("Generate questions (along with answers) related to specific topic. One can select number of questions and "
+         "difficulty level")
+st.write("Generate Questions button and Questify AI will do the rest.")
 # ---- SETUP SIDEBAR ----
 st.sidebar.title("Configuration")
 api_key, file_uploader = configure_apikey_sidebar()
@@ -65,8 +67,11 @@ input_prompt = f"""
 You are a proficient text reader from an image. 
 We will upload an image of a text. After extracting text from the image, generate {questions} questions of 
 difficulty level: {difficulty}. Besides questions, also generate an answer to those questions. Type answers after all
-the questions. You don't need to respond with original text of the image. Your response should include only quesitons and
-answers.
+the questions. You don't need to respond with original text of the image. Your response should include only 
+questions and answers.
+
+Your response format should be a list of python dictionary with dictionary keys and values enclosed in double quotes. 
+When generating a list, don't start the list with word python.
 
 If image is not consisted of text, respond that there is no text in the image or similar. 
 """
@@ -91,4 +96,8 @@ with col1:
             st.subheader("Generated Questions:")
             with st.spinner(":blue[Processing...]"):
                 response = get_gemini_response(api_key, input_prompt, byte_arr)
-                st.write(response)
+                print(response)
+                response_list = json.loads(response)
+                for index in range(len(response_list)):
+                    expander = st.expander(response_list[index]['question'])
+                    expander.write(response_list[index]['answer'])
