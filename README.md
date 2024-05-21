@@ -3,7 +3,7 @@ A Generative AI web application that generate questions (along with answers) rel
 of an image. Based on the selected topic, application chooses the relevant image and pass that to vision model to extract text and generate questions & answers.
 
 # Application Link
-[[https://st-yt-video-downloader.streamlit.app/](https://image-genie-app.streamlit.app/)](https://genai-questifyai-app.streamlit.app/)
+https://genai-questifyai-app.streamlit.app/
 
 # LLM Model Used
 * gemini-1.5-pro-latest
