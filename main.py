@@ -7,7 +7,7 @@ page_title = "Questify AI"
 page_icon = ":robot_face:"
 
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout="wide")
-st.image('questifyai_logo.jpg', width=400)
+st.image('logo.jpg', width=400)
 st.title(page_title)
 st.write(":blue[***Transforming Text into Thought-Provoking Questions***]")
 st.write("Upload an image of a text paragraph, select number of questions to be generated and difficulty leve"
