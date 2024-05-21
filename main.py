@@ -79,8 +79,8 @@ If image is not consisted of text, respond that there is no text in the image or
 
 if uploaded_image is not None:
     image = Image.open(uploaded_image)
-    st.sidebar.subheader("Reference Chapter Image")
     if file_uploader:
+        st.sidebar.subheader("Reference Chapter Image")
         st.sidebar.image(image, use_column_width=False)
 
 submit = st.button("Generate Questions", type="primary", disabled=not file_uploader)
