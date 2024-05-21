@@ -10,7 +10,7 @@ def configure_apikey_sidebar():
         st.sidebar.warning('Enter the API key')
         file_uploader = False
     elif api_key.startswith('AI') and (len(api_key) == 39):
-        st.sidebar.success('Proceed to uploading the image!', icon='️👉')
+        st.sidebar.success('Success. Application is now unlocked!', icon='️👉')
         file_uploader = True
     else:
         st.sidebar.warning('Please enter the correct credentials!', icon='⚠️')
