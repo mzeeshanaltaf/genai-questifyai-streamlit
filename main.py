@@ -20,8 +20,7 @@ world_bank_topics = {
 # --- PAGE SETUP ---
 # Initialize streamlit app
 page_title = "Questify AI"
-page_icon = ":robot_face:"
-
+page_icon = "❓"
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout="centered")
 st.image('logo.jpg', width=300)
 st.title(page_title)
