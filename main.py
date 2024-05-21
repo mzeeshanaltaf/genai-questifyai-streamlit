@@ -23,12 +23,12 @@ page_title = "Questify AI"
 page_icon = ":robot_face:"
 
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout="centered")
-st.image('logo.jpg', width=400)
+st.image('logo.jpg', width=300)
 st.title(page_title)
 st.write(":blue[***Transforming Text into Thought-Provoking Questions***]")
 st.write("Generate questions (along with answers) related to specific topic. One can select number of questions and "
          "difficulty level")
-st.write("Generate Questions button and Questify AI will do the rest.")
+st.write("Click on :green[*Generate Questions*] button below and Questify AI will do the rest.")
 # ---- SETUP SIDEBAR ----
 st.sidebar.title("Configuration")
 api_key, file_uploader = configure_apikey_sidebar()
